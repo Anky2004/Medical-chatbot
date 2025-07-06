@@ -1,0 +1,47 @@
+/* Chat box scroll behavior */
+.chat-box {
+  scroll-behavior: smooth;
+  background-color: #f8f9fa;
+  border-top: 1px solid #dee2e6;
+  border-bottom: 1px solid #dee2e6;
+  padding: 1rem;
+  height: 400px;
+  overflow-y: auto;
+}
+
+/* Message bubbles */
+.chat-box .text-start div,
+.chat-box .text-end div {
+  display: inline-block;
+  padding: 10px 15px;
+  border-radius: 20px;
+  max-width: 75%;
+  word-wrap: break-word;
+  margin-top: 5px;
+}
+
+/* Bot message bubble */
+.chat-box .text-start div {
+  background-color: #e2ecf9;
+  color: #212529;
+}
+
+/* User message bubble */
+.chat-box .text-end div {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Responsive tweaks */
+@media (max-width: 576px) {
+  .chat-box {
+    height: 300px;
+    padding: 0.75rem;
+  }
+
+  .chat-box .text-start div,
+  .chat-box .text-end div {
+    max-width: 90%;
+    font-size: 0.95rem;
+  }
+}
