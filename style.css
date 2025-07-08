@@ -1,47 +1,88 @@
-/* Chat box scroll behavior */
-.chat-box {
-  scroll-behavior: smooth;
+/* General layout */
+body {
+  font-family: 'Segoe UI', sans-serif;
   background-color: #f8f9fa;
-  border-top: 1px solid #dee2e6;
-  border-bottom: 1px solid #dee2e6;
+}
+
+/* Navbar */
+.navbar-brand {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.navbar .nav-link {
+  font-weight: 500;
+}
+
+/* Cards */
+.card {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Chatbox */
+.chat-box {
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
   padding: 1rem;
-  height: 400px;
   overflow-y: auto;
 }
 
-/* Message bubbles */
-.chat-box .text-start div,
-.chat-box .text-end div {
+/* Chat messages */
+.text-start strong,
+.text-end strong {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.text-start div,
+.text-end div {
+  background-color: #f1f3f5;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
   display: inline-block;
-  padding: 10px 15px;
-  border-radius: 20px;
-  max-width: 75%;
-  word-wrap: break-word;
-  margin-top: 5px;
+  max-width: 80%;
 }
 
-/* Bot message bubble */
-.chat-box .text-start div {
-  background-color: #e2ecf9;
-  color: #212529;
+.text-end div {
+  background-color: #d0ebff;
 }
 
-/* User message bubble */
-.chat-box .text-end div {
-  background-color: #007bff;
-  color: white;
+/* Buttons */
+.btn {
+  border-radius: 6px;
+}
+
+.btn-outline-success:hover,
+.btn-outline-primary:hover,
+.btn-outline-danger:hover {
+  opacity: 0.9;
+}
+
+/* Alerts (popup reminders) */
+.alert {
+  font-size: 0.95rem;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+}
+
+/* Form inputs */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="time"],
+select {
+  border-radius: 6px;
 }
 
 /* Responsive tweaks */
 @media (max-width: 576px) {
   .chat-box {
-    height: 300px;
-    padding: 0.75rem;
+    height: 300px !important;
   }
 
-  .chat-box .text-start div,
-  .chat-box .text-end div {
-    max-width: 90%;
-    font-size: 0.95rem;
+  .navbar-brand {
+    font-size: 1.2rem;
   }
 }
