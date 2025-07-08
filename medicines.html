@@ -1,0 +1,98 @@
+
+{% extends "base.html" %}
+{% block title %}Medicine Tracker - MedBot{% endblock %}
+{% block content %}
+<div class="card shadow">
+  <div class="card-header bg-success text-white text-center">
+    <h3 class="mb-0">💊 Medicine Tracker</h3>
+    <small>Track and schedule your medications</small>
+  </div>
+
+  <div class="card-body">
+    <form method="POST" class="row g-3 mb-4">
+      <div class="col-md-4">
+        <input type="text" name="name" class="form-control" placeholder="Medicine Name" required />
+      </div>
+      <div class="col-md-3">
+        <input type="time" name="time" class="form-control" required />
+      </div>
+      <div class="col-md-3">
+        <select name="frequency" class="form-select" required>
+          <option value="once">Today Only</option>
+          <option value="daily">Daily</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <button type="submit" class="btn btn-success w-100">Add</button>
+      </div>
+    </form>
+
+    <h5>Your Medicines:</h5>
+    <ul class="list-group mb-4">
+      {% for med in schedule %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <div>
+            <strong>{{ med.name }}</strong> at <span class="text-primary">{{ med.time }}</span>
+            <small class="text-muted">({{ med.frequency }})</small>
+          </div>
+          <form method="POST" action="{{ url_for('delete_medicine', med_id=med.id) }}">
+            <button class="btn btn-sm btn-outline-danger">Delete</button>
+          </form>
+        </li>
+      {% else %}
+        <li class="list-group-item text-muted">No medicines added yet.</li>
+      {% endfor %}
+    </ul>
+
+    <h5>Triggered Reminders:</h5>
+    <ul class="list-group">
+      {% for msg in reminders %}
+        <li class="list-group-item">{{ msg }}</li>
+      {% else %}
+        <li class="list-group-item text-muted">No reminders yet.</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+<!-- 🔔 Popup Reminder Script -->
+<script>
+  let shownReminders = new Set();
+
+  async function checkReminders() {
+    try {
+      const response = await fetch("/get_reminders");
+      const data = await response.json();
+      const reminders = data.reminders || [];
+
+      reminders.forEach(msg => {
+        if (!shownReminders.has(msg)) {
+          shownReminders.add(msg);
+          showPopup(msg);
+        }
+      });
+    } catch (err) {
+      console.error("Reminder check failed:", err);
+    }
+  }
+
+  function showPopup(message) {
+    const alert = document.createElement("div");
+    alert.className = "alert alert-warning alert-dismissible fade show position-fixed bottom-0 end-0 m-4 shadow";
+    alert.style.zIndex = 1055;
+    alert.innerHTML = `
+      <strong>⏰ Reminder:</strong> ${message}
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    document.body.appendChild(alert);
+
+    setTimeout(() => {
+      alert.classList.remove("show");
+      alert.classList.add("hide");
+      setTimeout(() => alert.remove(), 500);
+    }, 10000);
+  }
+
+  setInterval(checkReminders, 10000);
+</script>
+{% endblock %}
